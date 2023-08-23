@@ -11,33 +11,19 @@ app.use(bodyParser.json());
 const baseRouter = express.Router();
 
 baseRouter.get('/greeting', (req, res) => {
-    return res.send('Hello world');
+    return res.send('Hello world!');
 });
 
 baseRouter.post("/add", function(req, res) {
     const { first, second } = req.body;
-
-    if (typeof first !== 'number' || typeof second !== 'number') {
-        return res.status(400).json({ error: 'Both numbers must be provided as valid numbers' });
-    }
-
     const result = first +second;
-
     res.status(200).json({ result });
-      
-    
   });
 
 baseRouter.post('/subtract', (req, res) => {
   const { first, second } = req.body;
-
-    if (typeof first !== 'number' || typeof second !== 'number') {
-        return res.status(400).json({ error: 'Both numbers must be provided as valid numbers' });
-    }
-
-    const result = first -second;
-
-    res.status(200).json({ result });
+  const result = first -second;
+  res.status(200).json({ result });
 });
 
 app.use(baseUrl, baseRouter);
