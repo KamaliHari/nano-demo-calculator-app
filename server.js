@@ -1,11 +1,12 @@
 const express = require('express');
 const app = express();
-
+var bodyParser = require('body-parser');
 const PORT = process.env.PORT || 8080;
 
 const baseUrl = '/calculator'
 
 app.use(express.json());
+app.use(bodyParser.json()); 
 
 const baseRouter = express.Router();
 
@@ -13,17 +14,30 @@ baseRouter.get('/greeting', (req, res) => {
     return res.send('Hello world');
 });
 
-baseRouter.get("/add", function(req, res) {
-    const first =10;
-    const second =20;
-    const result = first + second;
+baseRouter.post("/add", function(req, res) {
+    const { first, second } = req.body;
+
+    if (typeof first !== 'number' || typeof second !== 'number') {
+        return res.status(400).json({ error: 'Both numbers must be provided as valid numbers' });
+    }
+
+    const result = first +second;
+
     res.status(200).json({ result });
       
     
   });
 
 baseRouter.post('/subtract', (req, res) => {
-    res.json({ "hull":1 });
+  const { first, second } = req.body;
+
+    if (typeof first !== 'number' || typeof second !== 'number') {
+        return res.status(400).json({ error: 'Both numbers must be provided as valid numbers' });
+    }
+
+    const result = first -second;
+
+    res.status(200).json({ result });
 });
 
 app.use(baseUrl, baseRouter);
